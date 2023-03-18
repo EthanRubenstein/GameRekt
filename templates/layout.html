@@ -1,0 +1,31 @@
+<!doctype html>
+<title>{% block title %}Welcome{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<div class="page">
+  <h1>GameRekt</h1>
+  <div class="navigation">
+  {% if g.user %}
+    <a href="{{ url_for('home') }}">Home</a> |
+    <a href="{{ url_for('logout') }}">Sign Out [{{ g.user.username }}]</a>
+  {% else %}
+    <a href="{{ url_for('register') }}">Sign Up</a> |
+    <a href="{{ url_for('login') }}">Sign In</a>
+  {% endif %}
+  </div>
+  {% with flashes = get_flashed_messages() %}
+    {% if flashes %}
+      <ul class="flashes">
+      {% for message in flashes %}
+        <li>{{ message }}
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <div class="body">
+  {% block body %}{% endblock %}
+  </div>
+  <br>
+  <div class="footer">
+    GameRekt &mdash; A Flask Application
+  </div>
+</div>
