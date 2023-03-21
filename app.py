@@ -8,7 +8,6 @@ app.config['SECRET_KEY'] = 'development key'
 
 
 
-
 class User():
     pass
 
@@ -103,6 +102,10 @@ def register():
             flash('You were successfully registered and can login now')
             return redirect(url_for('login'))
     return render_template('register.html', error=error, header="Sign Up")
+
+@app.route('/game', methods=['GET', 'POST'])
+def game():
+    return render_template('game.html')
 
 @app.route('/logout')
 def logout():
