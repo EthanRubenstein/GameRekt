@@ -33,11 +33,23 @@ class Database():
         con.close()
 
     def getUser(self, username):
-        if username in self.users:
-            return self.users[username]
+       # if username in self.users:
+       #     return self.users[username]
+       # else:
+       #     return None
+        con = sqlite3.connect('database.db') 
+        cur = con.cursor() 
+        
+        query="""SELECT user_id FROM users WHERE user_id = '{}'""".format(username)
+        cur.execute(query)
+        all_rows = cur.fetchall()
+        con.close()
+        if (len(all_rows) == 0): # Username not found in database
+            return None;
         else:
-            return None
-
+            return username
+        
+        
 def hash(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
