@@ -1,4 +1,4 @@
-import os, hashlib, sqlite3
+import os, hashlib, sqlite3, re
 from flask import Flask, request, session, url_for, redirect, render_template, abort, g, flash, _app_ctx_stack
 from datetime import datetime
 
@@ -9,45 +9,83 @@ app.config['SECRET_KEY'] = 'development key'
 
 
 class User():
-    pass
+    def __init__(self, username, password, email, creationTime = None):
+        self.username = username
+        self.password = password
+        self.email = email
+        self.creationTime = creationTime
+
+    def __str__(self):
+        return F"User Object: {self.username}, password: [...], email: {self.email}"
+
+    def fromDB(data_row):
+        # static function: creates User object from database entry
+        username, email, password, creationTime = data_row
+        return User(username, password, email, creationTime)
+
+class Review():
+    def __init__(self, id, gameName, user, date, rating, review):
+        self.id = id
+        self.gameName = gameName
+        self.user = user
+        if date:
+            self.date = date.split(" ", 1)[0]
+        else:
+            self.date = "NULL"
+        self.rating = rating 
+        self.review = review
 
 class Database():
-    """
-    placeholder, to be replaced with sql database later
-    """
-    
-    def __init__(self):
-        self.users = {}
     
     def addUser(self, userObject):
-        "user object is placeholder object which stores all user data"
-        #self.users[userObject.username] = userObject
         ### db implementation:
         con = sqlite3.connect('database.db') 
         cur = con.cursor()
 
         query = """INSERT INTO users(user_id, email, password, join_date) 
-                   VALUES('{}','{}','{}','{}')""".format(userObject.username, "", userObject.password, datetime.today())
+                   VALUES('{}','{}','{}','{}')""".format(userObject.username, userObject.email, userObject.password, datetime.today())
         cur.execute(query)
         con.commit()
         con.close()
 
     def getUser(self, username):
-       # if username in self.users:
-       #     return self.users[username]
-       # else:
-       #     return None
         con = sqlite3.connect('database.db') 
         cur = con.cursor() 
         
-        query="""SELECT user_id FROM users WHERE user_id = '{}'""".format(username)
+        query="""SELECT * FROM users WHERE user_id = '{}'""".format(username)
         cur.execute(query)
         all_rows = cur.fetchall()
         con.close()
         if (len(all_rows) == 0): # Username not found in database
-            return None;
+            return None
         else:
-            return username
+            return User.fromDB(all_rows[0])
+
+    def getReviews(self, gameName):
+        con = sqlite3.connect('database.db') 
+        cur = con.cursor() 
+        
+        query="""SELECT * FROM reviews WHERE gameName = '{}'""".format(gameName)
+        cur.execute(query)
+        all_rows = cur.fetchall()
+        con.close()
+        if (len(all_rows) == 0): # Username not found in database
+            return []
+        else:
+            return [Review(*data_row) for data_row in all_rows]
+
+    def postReview(self, reviewObject):
+        con = sqlite3.connect('database.db') 
+        cur = con.cursor()
+
+        query = """INSERT INTO reviews(gameName, user, date, rating, review) 
+                   VALUES('{}','{}','{}','{}','{}')""".format(reviewObject.gameName, reviewObject.user.username, datetime.today(), reviewObject.rating, reviewObject.review)
+        cur.execute(query)
+        con.commit()
+        con.close()
+
+    def deleteAllUsers(self):
+        print("TODO: implement Database.deleteAllUsers")
         
         
 def hash(password):
@@ -58,8 +96,10 @@ db = Database()
 @app.cli.command('initdb')
 def initdb_command():
     # Reinitialize the database tables
-            
+    db.deleteAllUsers()
+    db.addUser(User("example", hash("password"), "example@email.com"))
     print('Initialized Database')
+    print(db.getUser("example"))
 
 @app.before_request
 def before_request():
@@ -115,18 +155,26 @@ def register():
         elif db.getUser(request.form['username']) is not None:
             error = 'The username is already taken'
         else:
-            newUser = User()
-            newUser.username = request.form['username']
             hashedPassword = hash(request.form['password'])
-            newUser.password = hashedPassword
+            newUser = User(request.form['username'], hashedPassword, request.form['email'])
             db.addUser(newUser)
             flash('You were successfully registered and can login now')
             return redirect(url_for('login'))
     return render_template('register.html', error=error, header="Sign Up")
 
-@app.route('/game', methods=['GET', 'POST'])
-def game():
-    return render_template('game.html')
+@app.route('/game/<path:gameName>', methods=['GET', 'POST'])
+def game(gameName):
+    if request.method == 'POST':
+        if not g.user:
+            flash("You must be logged in to post a review")
+        print(request.form)
+        newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
+        db.postReview(newReview)
+
+    reviews = db.getReviews(gameName)
+    internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
+    file_address = F"images/{internal_name}.png"
+    return render_template('game.html', header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')
 def logout():

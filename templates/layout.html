@@ -1,6 +1,6 @@
 <!doctype html>
 <title>{% block title %}Welcome{% endblock %}</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 <div class="page">
   <h1>GameRekt</h1>
   <div class="navigation">
@@ -8,8 +8,6 @@
     <a href="{{ url_for('home') }}">Home</a> |
     <a href="{{ url_for('logout') }}">Sign Out [{{ g.user.username }}]</a>
     <br />
-    
-    <a href="{{ url_for('game') }}"><img src="../resources/Minecraft_cover.png" alt="Minecraft"></a>
   {% else %}
     <a href="{{ url_for('register') }}">Sign Up</a> |
     <a href="{{ url_for('login') }}">Sign In</a>

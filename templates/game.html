@@ -1,158 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Game Page{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <script >
-        let postOn = false;
-        function changePostState() {
-            if (postOn === false)
-                postOn = true;
-            else
-                postOn = false;
-            console.log(postOn);
-        }
+{% extends "layout.html" %}
+{% block title %}{{header}}{% endblock %}
+{% block body %}
 
-        function addPost() {
-            if (!postOn)
-                document.getElementById("postForm").style.display = "block";
-            else
-                closePost();
-        }
+    <h2>{{header}}</h2>
+    <img src="{{ url_for('static', filename=file_address) }}" alt={{internal_name}} width="200px">
 
-        function closePost() {
-            document.getElementById("postForm").style.display = "none";
-        }
-    </script>
-    <Style>
-        input[type="text"]::placeholder {
-            line-height: -40;
-            text-align: left;
-        }
-
-        .form-popup {
-            display: none;
-        }
-
-        /* use reverse flexbox to take advantage of flex-direction: reverse */
-        .star-rating {
-            display: flex;
-            align-items: center;
-            width: 160px;
-            flex-direction: row-reverse;
-            justify-content: space-between;
-            /* margin: 40px auto; */
-            position: relative;
-            caret-color: transparent;
-        }
-        /* hide the inputs */
-        .star-rating input {
-            display: none;
-        }
-        /* set properties of all labels */
-        .star-rating > label {
-            width: 30px;
-            height: 30px;
-            font-family: Arial;
-            font-size: 30px;
-            transition: 0.2s ease;
-            color: rgb(251, 196, 95);
-        }
-        /* give label a hover state */
-        .star-rating label:hover {
-            color: #e48749;
-            transition: 0.2s ease;
-        }
-        .star-rating label:active::before {
-            transform:scale(1.1);
-        }
-
-        /* set shape of unselected label */
-        .star-rating label::before {
-            content: '\2606';
-            position: absolute;
-            top: 0px;
-            line-height: 26px;
-        }
-        /* set full star shape for checked label and those that come after it */
-        .star-rating input:checked ~ label:before {
-            content:'\2605';
-        }
-    </Style>
-</head>
-<body>
-    <div class="page">
-        <h1>GameRekt</h1>
-        
-        <div class="navigation" style="display: flex ">
-        {% if g.user %}
-    
-            <a href="{{ url_for('home') }}">Home</a> |
-            <a href="{{ url_for('logout') }}">Sign Out [{{ g.user.username }}]</a>
-            <button class="post-button" style="margin-left: auto" onclick="addPost(); changePostState()">Write A Review</button>
-            
-        {% else %}
-            <a href="{{ url_for('register') }}" >Sign Up</a> |
-            <a href="{{ url_for('login') }}">Sign In</a>
-            <button class="post-button" style="margin-left: auto" onclick="addPost(); changePostState()">Write A Review</button>
-        {% endif %}
-        
-        </div>
-
-        <div class="form-popup" id="postForm">
-            <form action="/action_page.php" class="form-container">
-                <h2>Write Your Review</h2>
-                
-                <!-- Text box for writing reviews -->
-                <textarea id="review" name="review" style="width: 40vw; height: 300px; text-align: left;" placeholder="Enter Your Review" required></textarea>
-                
-                <!-- A star rating system -->
-                <div class="star-rating">
-                    <input type="radio" name="stars" id="star-a" value="5"/>
-                    <label for="star-a"></label>
-
-                    <input type="radio" checked="true" name="stars" id="star-b" value="4"/>
-                    <label for="star-b"></label>
-
-                    <input type="radio" name="stars" id="star-c" value="3"/>
-                    <label for="star-c"></label>
-
-                    <input type="radio" name="stars" id="star-d" value="2"/>
-                    <label for="star-d"></label>
-                
-                    <input type="radio" name="stars" id="star-e" value="1"/>
-                    <label for="star-e"></label>
-                </div>
-
-                <!-- Submit the post -->
-                <button type="submit" class="btn cancel" onclick="closePost()">Submit</button>
-            </form>
-          </div>
-
-        {% with flashes = get_flashed_messages() %}
-            {% if flashes %}
-                <ul class="flashes">
-            {% for message in flashes %}
-                <li>{{ message }}
+    {% if reviews|length > 0 %}
+        <table>
+            <tr>
+            <th>User</th>
+            <th>Date</th>
+            <th>Rating</th>
+            <th>Review</th>
+            </tr>
+            {% for review in reviews %}
+            <tr>
+                <td><strong>{{ review.user }}</a></strong></th>
+                <td>{{ review.date }}</td>
+                <td>{{ review.rating }}</td>
+                <td>{{ review.review }}</td>
+            </tr>
             {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        <div class="body">
-        {% block body %}
-            <img src="../resources/Minecraft_cover.png" alt="Minecraft" width="200px">
+        </table>
+    {% else %}
+      <em>There are no reviews for this game yet.</em>
+    {% endif %}
 
-        {% endblock %}
-        </div>
+    <div class="form-popup" id="postForm">
+        
+        <form action="" method = "post" class="form-container">
+            <h4>Write Your Review</h4>
+            
+            <!-- Text box for writing reviews -->
+            <textarea id="review" name="review" style="width: 40vw; height: 300px; text-align: left;" placeholder="Enter Your Review" required></textarea>
+            
+            <!-- A star rating system -->
+            <div class="rate">
+                <input type="radio" id="star5" name="rate" value="5" />
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+            </div>
 
-        <br>
-        <div class="footer">
-          GameRekt &mdash; A Flask Application
-        </div>
-      </div>
-</body>
-</html>
+            <!-- Submit the post -->
+            <div class="actions"><input type="submit" value=" Post Review "></div>
+        </form>
+    </div>
+
+
+{% endblock %}
 
