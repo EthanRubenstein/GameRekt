@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}{{header}}{% endblock %}
+{% block body %}
+
+    <h2>Search Results: {{header}}</h2>
+
+    {% if games|length > 0 %}
+        <table>
+            <tr>
+            <th>Game</th>
+            <th>Description</th>
+            <th>Genre</th>
+            </tr>
+            {% for game in games %}
+            <tr>
+                <td><strong>{{ game.title }}</a></strong></th>
+                <td>{{ game.desc }}</td>
+                <td>{{ game.genre }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+      <em>There are no results for this query.</em>
+    {% endif %}
+
+
+{% endblock %}
+
