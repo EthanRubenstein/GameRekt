@@ -100,12 +100,12 @@ class Database():
     def getUser(self, username):
         query="""SELECT * FROM users WHERE user_id = '{}'""".format(username)
         all_rows = Database.get(query)
-        return User.fromDB(all_rows[0]) if len(all_rows) > 0 else None
+        return User.fromDB(all_rows[0]) if all_rows and len(all_rows) > 0 else None
 
     def getReviews(self, gameName):
         query="""SELECT * FROM reviews WHERE gameName = '{}'""".format(gameName)
         all_rows = Database.get(query)
-        return [Review(*data_row) for data_row in all_rows] if len(all_rows) > 0 else []
+        return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
 
     def postReview(self, reviewObject):
         query = """INSERT INTO reviews(gameName, user, date, rating, review) 
@@ -121,12 +121,12 @@ class Database():
             if int(genreid) not in genreids:
                 all_rows.remove(data_row)
 
-        return [Game.fromDB(data_row) for data_row in all_rows][:50] if len(all_rows) > 0 else []
+        return [Game.fromDB(data_row) for data_row in all_rows][:50] if all_rows and len(all_rows) > 0 else []
 
     def getGame(self, title):
         query=F"""SELECT * FROM games WHERE game_title LIKE '%{title.lower()}%'"""
         all_rows = Database.get(query)
-        return [Game.fromDB(data_row) for data_row in all_rows] if len(all_rows) > 0 else []
+        return [Game.fromDB(data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
 
     def deleteAllUsers(self):
         print("TODO: implement Database.deleteAllUsers")
@@ -247,9 +247,9 @@ def game(gameName):
     if request.method == 'POST':
         if not g.user:
             flash("You must be logged in to post a review")
-        print(request.form)
-        newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
-        db.postReview(newReview)
+        else:
+            newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
+            db.postReview(newReview)
 
     reviews = db.getReviews(gameName)
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
