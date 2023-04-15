@@ -39,6 +39,7 @@ class Game():
         self.desc = desc
         self.genre = "None"
         self.id = gameid
+        self.img = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(gameid)
         for key in Database.genre_mappings.keys():
             if Database.genre_mappings[key] in genreid:
                 if self.genre == "None":
