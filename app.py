@@ -259,11 +259,11 @@ def game(gameName):
             newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
             db.postReview(newReview)
 
-    x = db.getGame(gameName, exact = True)
+    game_image = db.getGame(gameName, exact = True)[0].id
 
     reviews = db.getReviews(gameName)
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
-    file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(x[0].id)
+    file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(game_image)
     return render_template('game.html', header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')
