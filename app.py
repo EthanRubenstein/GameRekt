@@ -1,4 +1,4 @@
-import os, hashlib, sqlite3, re
+import os, hashlib, sqlite3, re, requests
 from flask import Flask, request, session, url_for, redirect, render_template, abort, g, flash, _app_ctx_stack
 from datetime import datetime
 
@@ -40,6 +40,8 @@ class Game():
         self.genre = "None"
         self.id = gameid
         self.img = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(gameid)
+        self.alt_img = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(gameid)
+
         for key in Database.genre_mappings.keys():
             if Database.genre_mappings[key] in genreid:
                 if self.genre == "None":
@@ -259,6 +261,7 @@ def removeDuplicates(games):
 
 
 @app.route('/game/<path:gameName>', methods=['GET', 'POST'])
+
 def game(gameName):
     if db.getGame(gameName, exact = True) == []:
         return render_template('game_not_found.html', header = gameName)
@@ -275,6 +278,11 @@ def game(gameName):
     reviews = db.getReviews(gameName)
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
     file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(game_image)
+    try:
+        resp = requests.get(file_address)
+        resp.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(game_image)
     return render_template('game.html', header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')
