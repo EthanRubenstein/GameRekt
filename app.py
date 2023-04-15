@@ -34,10 +34,11 @@ class Review():
         self.review = review
 
 class Game():
-    def __init__(self, title, desc, genreid):
+    def __init__(self, title, desc, genreid, gameid):
         self.title = title
         self.desc = desc
         self.genre = "None"
+        self.id = gameid
         for key in Database.genre_mappings.keys():
             if Database.genre_mappings[key] in genreid:
                 if self.genre == "None":
@@ -47,7 +48,7 @@ class Game():
 
     def fromDB(data_row):
         genreids = [int(val) for val in data_row[12].strip('][').split(', ')] if data_row[12] != 'None' else []
-        return Game(data_row[1], data_row[6], genreids)
+        return Game(data_row[1], data_row[6], genreids, data_row[0])
         
 class Database():
     genre_mappings = { # maps a readable genre to the genre id number, currently genre names are g_ as i dont know what the mapping is
@@ -258,9 +259,11 @@ def game(gameName):
             newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
             db.postReview(newReview)
 
+    x = db.getGame(gameName, exact = True)
+
     reviews = db.getReviews(gameName)
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
-    file_address = F"images/{internal_name}.png"
+    file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(x[0].id)
     return render_template('game.html', header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')

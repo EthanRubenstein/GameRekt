@@ -3,7 +3,7 @@
 {% block body %}
 
     <h2>{{header}}</h2>
-    <img src="{{ url_for('static', filename=file_address) }}" alt={{internal_name}} width="200px">
+    <img src="{{file_address}}" alt={{internal_name}} width="200px">
     <br>
     {% if reviews|length > 0 %}
         <table>
