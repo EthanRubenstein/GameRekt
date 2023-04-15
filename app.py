@@ -123,8 +123,12 @@ class Database():
 
         return [Game.fromDB(data_row) for data_row in all_rows][:50] if all_rows and len(all_rows) > 0 else []
 
-    def getGame(self, title):
-        query=F"""SELECT * FROM games WHERE game_title LIKE '%{title.lower()}%'"""
+    def getGame(self, title, exact = False):
+        if exact:
+            query=F"""SELECT * FROM games WHERE game_title = '{title}'"""
+        else:
+            query=F"""SELECT * FROM games WHERE game_title LIKE '%{title.lower()}%'"""
+
         all_rows = Database.get(query)
         return [Game.fromDB(data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
 
@@ -244,6 +248,9 @@ def removeDuplicates(games):
 
 @app.route('/game/<path:gameName>', methods=['GET', 'POST'])
 def game(gameName):
+    if db.getGame(gameName, exact = True) == []:
+        return render_template('game_not_found.html', header = gameName)
+
     if request.method == 'POST':
         if not g.user:
             flash("You must be logged in to post a review")

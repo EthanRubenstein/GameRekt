@@ -13,7 +13,7 @@
             </tr>
             {% for game in games %}
             <tr>
-                <td><strong>{{ game.title }}</a></strong></th>
+                <td><strong><a href="/game/{{ game.title }}">{{ game.title }}</a></a></strong></th>
                 <td>{{ game.desc }}</td>
                 <td>{{ game.genre }}</td>
             </tr>
