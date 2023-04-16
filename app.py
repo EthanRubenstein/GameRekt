@@ -214,6 +214,7 @@ def profile(user):
     userReviews = db.getAllReviews(user)
     friends = db.getAllFriends(user)
     true_friends = [] # true_friends = friends that have added the user back
+    pending_friends = [] # users that have been sent a friend request but haven't accepted yet
     friends_list = [] # all users that the user has sent a friend request to
     if friends is not None:
         for friend in friends:
@@ -222,6 +223,8 @@ def profile(user):
         for friend in friends_list:
             if db.getFriend(friend, user) is not None:
                 true_friends.append(friend)
+            else:
+                pending_friends.append(friend)
 
     if request.method == 'POST':
         friend = request.form['friend']
@@ -232,7 +235,7 @@ def profile(user):
         else:
             db.addFriend(user, friend)
             flash('Friend request sent')
-    return render_template('profile.html', error=error, user=user, userReviews = userReviews, friends=true_friends)
+    return render_template('profile.html', error=error, user=user, userReviews = userReviews, friends=true_friends, pending_friends = pending_friends)
 
 @app.route('/random', methods=['GET'])
 def random():

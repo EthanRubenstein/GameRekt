@@ -17,6 +17,11 @@
     <td><a href = "{{ url_for('profile', user=friend) }}">{{friend}}</a></th>
     </tr>
   {% endfor %}
+  {% for friend in pending_friends %}
+  <tr>
+    <td><a href = "{{ url_for('profile', user=friend) }}">{{friend}} (Pending)</a></th>
+    </tr>
+  {% endfor %}
   </table>
   {% if userReviews|length > 0 %}
   <table>
