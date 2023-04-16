@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}GamRekt Profile: {{user}}{% endblock %}
+{% block body %}
+  <h2>{{user}}</h2>
+  {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
+
+  {% if userReviews|length > 0 %}
+  <table>
+    <tr>
+    <th>Game</th>
+    <th>Date</th>
+    <th>Rating</th>
+    <th>Review</th>
+    </tr>
+  {% for review in userReviews %}
+  <tr>
+      <td><strong>{{ review.gameName }}</a></strong></th>
+      <td>{{ review.date }}</td>
+      <td>{{ review.rating }}</td>
+      <td>{{ review.review }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+  <em>This user has not posted a review yet.</em>
+{% endif %}
+
+
+{% endblock %}
+

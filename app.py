@@ -115,7 +115,10 @@ class Database():
         query="""SELECT * FROM users WHERE user_id = '{}'""".format(username)
         all_rows = Database.get(query)
         return User.fromDB(all_rows[0]) if all_rows and len(all_rows) > 0 else None
-
+    def getAllReviews(self, username):
+        query="""SELECT * FROM reviews WHERE user = '{}'""".format(username)
+        all_rows = Database.get(query)
+        return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
     def getReviews(self, gameName):
         query="""SELECT * FROM reviews WHERE gameName = '{}'""".format(gameName)
         all_rows = Database.get(query)
@@ -183,6 +186,16 @@ def home():
         return redirect('/')
     
     return render_template('layout.html')
+@app.route('/profile/<path:user>', methods=['GET'])
+def profile(user):
+    error = None
+    if not db.getUser(user):
+        error = 'User does not exist'
+    userReviews = db.getAllReviews(user)
+
+    return render_template('profile.html', error=error, user=user, userReviews = userReviews)
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
