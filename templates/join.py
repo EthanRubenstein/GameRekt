@@ -100,7 +100,7 @@ home = """
     <a href="/login">Sign In</a>
   {% endif %}
   </div>
-
+  
   {% with flashes = get_flashed_messages() %}
     {% if flashes %}
       <ul class="flashes">
@@ -112,12 +112,13 @@ home = """
   {% endwith %}
 
   <div class="body">
-  {% block body %}{% endblock %}
+  {% block body %}
+  {% endblock %}
   </div>
 
   <br>
   <div class="footer">
-    GameRekt &mdash; A Flask Application
+    GameRekt &mdash; A Flask ff
   </div>
 </div>
 """

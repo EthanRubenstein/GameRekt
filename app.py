@@ -156,7 +156,10 @@ class Database():
     def deleteAllUsers(self):
         print("TODO: implement Database.deleteAllUsers")
 
-    
+    def getRandGame(self):
+        query="""SELECT * FROM GAMES WHERE rowid = (ABS(RANDOM()) % (SELECT (SELECT MAX(rowid) FROM games)+1))"""
+        all_rows = Database.get(query)
+        return all_rows[0]
         
 def hash(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -199,7 +202,11 @@ def profile(user):
 
     return render_template('profile.html', error=error, user=user, userReviews = userReviews)
 
-
+@app.route('/random', methods=['GET'])
+def random():
+    game = db.getRandGame()
+    return redirect(F'/game/{game[1]}')
+   
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
