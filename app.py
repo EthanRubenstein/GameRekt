@@ -115,11 +115,15 @@ class Database():
         query="""SELECT * FROM users WHERE user_id = '{}'""".format(username)
         all_rows = Database.get(query)
         return User.fromDB(all_rows[0]) if all_rows and len(all_rows) > 0 else None
-    def getAllReviews(self, username):
+    def getAllReviews(self, username): # returns all reviews for a user
         query="""SELECT * FROM reviews WHERE user = '{}'""".format(username)
         all_rows = Database.get(query)
         return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
-    def getReviews(self, gameName):
+    def getUserReview(self, username, title): # returns a review if the user has reviewed the game
+        query="""SELECT * FROM reviews WHERE user = '{}' AND gameName = '{}'""".format(username, title)
+        all_rows = Database.get(query)
+        return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
+    def getReviews(self, gameName): # returns all reviews for a game
         query="""SELECT * FROM reviews WHERE gameName = '{}'""".format(gameName)
         all_rows = Database.get(query)
         return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
@@ -282,6 +286,8 @@ def game(gameName):
     if request.method == 'POST':
         if not g.user:
             flash("You must be logged in to post a review")
+        if g.user and db.getUserReview(g.user.username, gameName):
+            flash("You cannot leave multiple reviews for one game")
         else:
             newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
             db.postReview(newReview)
