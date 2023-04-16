@@ -2,6 +2,8 @@ import os, hashlib, sqlite3, re, requests
 from flask import Flask, request, session, url_for, redirect, render_template, abort, g, flash, _app_ctx_stack
 from datetime import datetime
 
+
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'development key'
@@ -105,7 +107,18 @@ class Database():
         con.commit()
         con.close()
 
-    
+    def addFriend(self, fromUser, toUser):
+        query = """INSERT INTO friends(fromUser, toUser) 
+                   VALUES('{}','{}')""".format(fromUser, toUser)
+        Database.post(query)
+    def getFriend(self, fromUser, toUser):
+        query="""SELECT * FROM friends WHERE fromUser = '{}' AND toUser = '{}'""".format(fromUser, toUser)
+        all_rows = Database.get(query)
+        return all_rows
+    def getAllFriends(self, fromUser):
+        query="""SELECT toUser FROM friends WHERE fromUser = '{}'""".format(fromUser)
+        all_rows = Database.get(query)
+        return all_rows
     def addUser(self, userObject):
         query = """INSERT INTO users(user_id, email, password, join_date) 
                    VALUES('{}','{}','{}','{}')""".format(userObject.username, userObject.email, userObject.password, datetime.today())
@@ -193,20 +206,38 @@ def home():
         return redirect('/')
     
     return render_template('layout.html')
-@app.route('/profile/<path:user>', methods=['GET'])
+@app.route('/profile/<path:user>', methods=['GET', 'POST'])
 def profile(user):
     error = None
     if not db.getUser(user):
         error = 'User does not exist'
     userReviews = db.getAllReviews(user)
+    friends = db.getAllFriends(user)
+    true_friends = [] # true_friends = friends that have added the user back
+    friends_list = [] # all users that the user has sent a friend request to
+    if friends is not None:
+        for friend in friends:
+            friends_list.append(friend[0])
 
-    return render_template('profile.html', error=error, user=user, userReviews = userReviews)
+        for friend in friends_list:
+            if db.getFriend(friend, user) is not None:
+                true_friends.append(friend)
+
+    if request.method == 'POST':
+        friend = request.form['friend']
+        if len(friend) == 0:
+            error = 'User not specified'
+        elif db.getFriend(user, friend):
+            error = 'You are already friends with {}.'.format(friend)
+        else:
+            db.addFriend(user, friend)
+            flash('Friend request sent')
+    return render_template('profile.html', error=error, user=user, userReviews = userReviews, friends=true_friends)
 
 @app.route('/random', methods=['GET'])
 def random():
     game = db.getRandGame()
     return redirect(F'/game/{game[1]}')
-   
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

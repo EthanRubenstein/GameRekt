@@ -1,9 +1,23 @@
 {% extends "layout.html" %}
 {% block title %}GamRekt Profile: {{user}}{% endblock %}
 {% block body %}
-  <h2>{{user}}</h2>
   {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
-
+  <h2>{{user}}</h2>
+  <h3>Friends</h3>
+  <form action="" method="post">
+  <input type="text" name="friend" size="30" value="{{ request.form.friend }}">
+  <div class="actions"><input type="submit" value="Add friend"></div>
+  </form>
+  <table>
+    <tr>
+    <th>Friends</th>
+    </tr>
+  {% for friend in friends %}
+  <tr>
+    <td><a href = "{{ url_for('profile', user=friend) }}">{{friend}}</a></th>
+    </tr>
+  {% endfor %}
+  </table>
   {% if userReviews|length > 0 %}
   <table>
     <tr>
