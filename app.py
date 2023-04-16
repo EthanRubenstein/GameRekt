@@ -229,9 +229,13 @@ def profile(user):
     if request.method == 'POST':
         friend = request.form['friend']
         if len(friend) == 0:
-            error = 'User not specified'
+            error = 'User not specified.'
         elif db.getFriend(user, friend):
             error = 'You are already friends with {}.'.format(friend)
+        elif db.getUser(friend) is None:
+            error = 'User does not exist.'
+        elif friend == user:
+            error = 'You cannot send yourself a friend request.'
         else:
             db.addFriend(user, friend)
             flash('Friend request sent')
