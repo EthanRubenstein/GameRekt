@@ -119,6 +119,10 @@ class Database():
         query="""SELECT toUser FROM friends WHERE fromUser = '{}'""".format(fromUser)
         all_rows = Database.get(query)
         return all_rows
+    def getAllFriendsTo(self, toUser):
+        query="""SELECT fromUser FROM friends WHERE toUser = '{}'""".format(toUser)
+        all_rows = Database.get(query)
+        return all_rows
     def addUser(self, userObject):
         query = """INSERT INTO users(user_id, email, password, join_date) 
                    VALUES('{}','{}','{}','{}')""".format(userObject.username, userObject.email, userObject.password, datetime.today())
@@ -213,9 +217,20 @@ def profile(user):
         error = 'User does not exist'
     userReviews = db.getAllReviews(user)
     friends = db.getAllFriends(user)
+    potential_friends = db.getAllFriendsTo(user)
+    potential_friends_list = []
+    incoming_friends = [] # friend requests the user hasn't accepted
     true_friends = [] # true_friends = friends that have added the user back
     pending_friends = [] # users that have been sent a friend request but haven't accepted yet
     friends_list = [] # all users that the user has sent a friend request to
+
+    if potential_friends is not None:
+        for friend in potential_friends:
+                potential_friends_list.append(friend[0])
+        for friend in potential_friends_list:
+            if db.getFriend(user, friend) is None:
+                incoming_friends.append(friend)
+
     if friends is not None:
         for friend in friends:
             friends_list.append(friend[0])
@@ -239,7 +254,7 @@ def profile(user):
         else:
             db.addFriend(user, friend)
             flash('Friend request sent')
-    return render_template('profile.html', error=error, user=user, userReviews = userReviews, friends=true_friends, pending_friends = pending_friends)
+    return render_template('profile.html', error=error, user=user, userReviews = userReviews, friends=true_friends, pending_friends = pending_friends, incoming_friends = incoming_friends)
 
 @app.route('/random', methods=['GET'])
 def random():

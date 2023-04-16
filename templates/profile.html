@@ -4,24 +4,35 @@
   {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
   <h2>{{user}}</h2>
   <h3>Friends</h3>
+  {% if g.user.username == user%}
   <form action="" method="post">
     <input type="text" name="friend" size="30" value="{{ request.form.friend }}">
     <input type="submit" value="Add friend">
   </form>
+  {% endif %}
   <table>
     <tr>
     <th>Friends</th>
     </tr>
+  {% if g.user.username == user%}
+  {% for friend in incoming_friends %}
+  <tr>
+    <td><a href = "{{ url_for('profile', user=friend) }}">{{friend}} (Incoming)</a> </th>
+    </tr>
+  {% endfor %}
+  {% endif %}
   {% for friend in friends %}
   <tr>
     <td><a href = "{{ url_for('profile', user=friend) }}">{{friend}}</a></th>
     </tr>
   {% endfor %}
+  {% if g.user.username == user%}
   {% for friend in pending_friends %}
   <tr>
     <td><a href = "{{ url_for('profile', user=friend) }}">{{friend}} (Pending)</a></th>
     </tr>
   {% endfor %}
+  {% endif %}
   </table>
   {% if userReviews|length > 0 %}
   <table>
