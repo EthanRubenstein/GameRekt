@@ -111,18 +111,22 @@ class Database():
         query = """INSERT INTO friends(fromUser, toUser) 
                    VALUES('{}','{}')""".format(fromUser, toUser)
         Database.post(query)
+    
     def getFriend(self, fromUser, toUser):
         query="""SELECT * FROM friends WHERE fromUser = '{}' AND toUser = '{}'""".format(fromUser, toUser)
         all_rows = Database.get(query)
         return all_rows
+
     def getAllFriends(self, fromUser):
         query="""SELECT toUser FROM friends WHERE fromUser = '{}'""".format(fromUser)
         all_rows = Database.get(query)
         return all_rows
+
     def getAllFriendsTo(self, toUser):
         query="""SELECT fromUser FROM friends WHERE toUser = '{}'""".format(toUser)
         all_rows = Database.get(query)
         return all_rows
+
     def addUser(self, userObject):
         query = """INSERT INTO users(user_id, email, password, join_date) 
                    VALUES('{}','{}','{}','{}')""".format(userObject.username, userObject.email, userObject.password, datetime.today())
@@ -132,14 +136,17 @@ class Database():
         query="""SELECT * FROM users WHERE user_id = '{}'""".format(username)
         all_rows = Database.get(query)
         return User.fromDB(all_rows[0]) if all_rows and len(all_rows) > 0 else None
+
     def getAllReviews(self, username): # returns all reviews for a user
         query="""SELECT * FROM reviews WHERE user = '{}'""".format(username)
         all_rows = Database.get(query)
         return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
+
     def getUserReview(self, username, title): # returns a review if the user has reviewed the game
         query="""SELECT * FROM reviews WHERE user = '{}' AND gameName = '{}'""".format(username, title)
         all_rows = Database.get(query)
         return [Review(*data_row) for data_row in all_rows] if all_rows and len(all_rows) > 0 else []
+        
     def getReviews(self, gameName): # returns all reviews for a game
         query="""SELECT * FROM reviews WHERE gameName = '{}'""".format(gameName)
         all_rows = Database.get(query)
@@ -150,15 +157,24 @@ class Database():
                    VALUES('{}','{}','{}','{}','{}')""".format(reviewObject.gameName, reviewObject.user.username, datetime.today(), reviewObject.rating, reviewObject.review)
         Database.post(query)
 
-    def getGenre(self, genreid):
-        query=F"""SELECT * FROM games WHERE genres LIKE '%{genreid}%' LIMIT 100"""
-        all_rows = Database.get(query)
+    def getGenre(self, genreids):
+        if genreids == None:
+            return []
+            
+        if type(genreids) != list:
+            genreids = [genreids]
+
+        all_rows = []
+        for genreid in genreids:
+            query=F"""SELECT * FROM games WHERE genres LIKE '%{genreid}%' LIMIT 100"""
+            all_rows += Database.get(query)
 
         for data_row in all_rows: # the search query will also return things like genre = 12 when searching for genre = 1 due to the way string matching works
             genreids = [int(val) for val in data_row[12].strip('][').split(', ')] if data_row[12] != 'None' else []
             if int(genreid) not in genreids:
                 all_rows.remove(data_row)
 
+        
         return [Game.fromDB(data_row) for data_row in all_rows][:50] if all_rows and len(all_rows) > 0 else []
 
     def getGame(self, title, exact = False):
@@ -187,9 +203,7 @@ db = Database()
 def initdb_command():
     # Reinitialize the database tables
     db.deleteAllUsers()
-    db.addUser(User("example", hash("password"), "example@email.com"))
     print('Initialized Database')
-    print(db.getUser("example"))
 
 @app.before_request
 def before_request():
@@ -210,6 +224,7 @@ def home():
         return redirect('/')
     
     return render_template('layout.html')
+
 @app.route('/profile/<path:user>', methods=['GET', 'POST'])
 def profile(user):
     error = None
@@ -227,6 +242,7 @@ def profile(user):
     if potential_friends is not None:
         for friend in potential_friends:
                 potential_friends_list.append(friend[0])
+                
         for friend in potential_friends_list:
             if db.getFriend(user, friend) is None:
                 incoming_friends.append(friend)
@@ -315,8 +331,13 @@ def search():
 
 @app.route('/search/genre/<path:genre>', methods=['GET'])
 def search_genre(genre):
-    genreid = Database.genre_mappings[genre.lower()]
-    games = db.getGenre(genreid)
+    genreids = []
+    for key, value in Database.genre_mappings.items():
+       if genre.lower() in key.lower():
+            genreids.append(value) 
+            
+        
+    games = db.getGenre(genreids)
     games = removeDuplicates(games)
     return render_template('search_results.html', header = genre, games = games)
 
@@ -338,7 +359,6 @@ def removeDuplicates(games):
 
 
 @app.route('/game/<path:gameName>', methods=['GET', 'POST'])
-
 def game(gameName):
     if db.getGame(gameName, exact = True) == []:
         return render_template('game_not_found.html', header = gameName)
@@ -357,11 +377,13 @@ def game(gameName):
     reviews = db.getReviews(gameName)
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
     file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(game_image)
+
     try:
         resp = requests.get(file_address)
         resp.raise_for_status()
     except requests.exceptions.HTTPError as err:
         file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(game_image)
+
     return render_template('game.html', header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')
