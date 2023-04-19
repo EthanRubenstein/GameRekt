@@ -8,6 +8,15 @@ body {
     color: aliceblue;
 }
 
+.text-box{
+    font-family: 'DotGothic16', 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.flashes{
+    padding-top:25px;
+    text-align:center;
+}
 
 .rate {
     float: left;
@@ -15,6 +24,7 @@ body {
     padding: 0 10px;
 }
 .rate:not(:checked) > input {
+    display:none;
     position:absolute;
     top:-9999px;
 }

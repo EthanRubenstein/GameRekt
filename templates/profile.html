@@ -5,7 +5,7 @@
 
   {% if g.user.username == user%}
   <form action="" method="post">
-    <input type="text" name="friend" size="30" value="{{ request.form.friend }}" style="height: 25px;">
+    <input type="text" class="text-box" name="friend" size="30" value="{{ request.form.friend }}" style="height: 25px;">
     <input type="submit" class="addFriend" value="Add friend">
   </form>
   <br>
