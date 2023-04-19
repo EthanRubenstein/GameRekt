@@ -36,9 +36,10 @@ class Review():
         self.review = review
 
 class Game():
-    def __init__(self, title, desc, genreid, gameid):
+    def __init__(self, title, desc, genreid, gameid, release_date):
         self.title = title
         self.desc = desc
+        self.release_date = release_date
         self.genre = "None"
         self.id = gameid
         self.img = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(gameid)
@@ -53,7 +54,7 @@ class Game():
 
     def fromDB(data_row):
         genreids = [int(val) for val in data_row[12].strip('][').split(', ')] if data_row[12] != 'None' else []
-        return Game(data_row[1], data_row[6], genreids, data_row[0])
+        return Game(data_row[1], data_row[6], genreids, data_row[0], data_row[2])
         
 class Database():
     genre_mappings = { # maps a readable genre to the genre id number, currently genre names are g_ as i dont know what the mapping is
@@ -373,6 +374,7 @@ def game(gameName):
             db.postReview(newReview)
 
     game_image = db.getGame(gameName, exact = True)[0].id
+    game_desc = db.getGame(gameName, exact = True)[0].desc
 
     reviews = db.getReviews(gameName)
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
@@ -384,7 +386,7 @@ def game(gameName):
     except requests.exceptions.HTTPError as err:
         file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(game_image)
 
-    return render_template('game.html', header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
+    return render_template('game.html', desc = game_desc, header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')
 def logout():

@@ -9,15 +9,14 @@
             <tr>
             <th></th>
             <th>Game</th>
-            <th>Description</th>
+            <th>Release Date</th>
             <th>Genre</th>
             </tr>
             {% for game in games %}
             <tr>
                 <td><a href="/game/{{ game.title }}"><img src="{{ game.img}}" onerror="this.onerror=null;this.src='{{ game.alt_img }}';" alt={{game.title}} width="200px"></a></td>
                 <td><strong><a href="/game/{{ game.title }}">{{ game.title }}</a></strong></th>
-                <td>{{ game.desc }}</td>
-
+                <td>{{ game.release_date }}</td>
                 
                 <td>
                     {% if "Action" in game.genre %}
