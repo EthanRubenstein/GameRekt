@@ -38,15 +38,14 @@ body {
     color:#ccc;
 }
 #desc{
-    /* From https://css.glass */
-background: rgba(255, 255, 255, 0.17);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(5px);
--webkit-backdrop-filter: blur(5px);
-border: 1px solid rgba(255, 255, 255, 0.3);
-margin:2%;
-padding:1%;
+    background: rgba(255, 255, 255, 0.17);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin:2%;
+    padding:1%;
 }
 .rate:not(:checked) > label:before {
     content: '★ ';
@@ -118,13 +117,14 @@ input{
     justify-content: center;
     align-items: center; 
 }
-
+.table{
+    width:100%;
+}
 
 table, th, td {
     border: 3px solid black;
     border-collapse: collapse;
-    background-color: white;
-    color: black;
+    color:white;
 }
 
 th, td {
@@ -136,5 +136,19 @@ th, td {
 
 th {
     font-family: 'Press Start 2P', cursive;
-    color: darkred;
+    color: rgb(255, 0, 0);
+}
+table{
+    background: rgba(255, 255, 255, 0.17);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+table a{
+    color:white;
+}
+#profile{
+    color:white
 }

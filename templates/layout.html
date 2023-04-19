@@ -21,13 +21,13 @@
     </a> 
 
 
-    {% if g.user %}|
+    {% if g.user %}
       <a href="{{ url_for('logout') }}">
         <img src="{{ url_for('static', filename='images/Sign_out.png') }}" alt="Sign Out" style = "display: block; margin: auto;">
       </a>
 
         
-      <a href = "{{ url_for('profile', user=g.user.username) }}">[{{ g.user.username }}] Profile</a>
+      <a href = "{{ url_for('profile', user=g.user.username) }}" id="profile"> <strong>Profile</strong> [{{ g.user.username }}]</a>
       <br />
     {% else %}
     
