@@ -2,6 +2,13 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    font-family: 'DotGothic16', 'Courier New', Courier, monospace;
+    color: aliceblue;
+}
+
+
 .rate {
     float: left;
     height: 46px;
@@ -39,12 +46,19 @@
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 3px solid black;
     border-collapse: collapse;
+    background-color: white;
+    color: black;
     }
     th, td {
     padding-top: 10px;
     padding-bottom: 20px;
     padding-left: 30px;
     padding-right: 40px;
+    }
+
+    th {
+        font-family: 'Press Start 2P', cursive;
+        color: darkred;
     }

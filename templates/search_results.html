@@ -17,8 +17,109 @@
                 <td> <img src="{{ game.img}}" onerror="this.onerror=null;this.src='{{ game.alt_img }}';" alt={{game.title}} width="200px"></td>
                 <td><strong><a href="/game/{{ game.title }}">{{ game.title }}</a></a></strong></th>
                 <td>{{ game.desc }}</td>
-                <td>{{ game.genre }}</td>
+
+                
+                <td>
+                    {% if "Action" in game.genre %}
+                        <img src="{{ url_for('static', filename='images/genre_tags/Action.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Adventure" in game.genre %}
+                        <img src="{{ url_for('static', filename='images/genre_tags/Adventure.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Board Game" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/boardgame.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Construction and Management Sim" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/const_man.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Education" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/educate.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Family" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/family.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Fighting" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/fighting.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "GBA Video / PSP Video" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/gba_psp.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Horror" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/horror.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Life Sim" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/life_sim.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "MMO" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/mmo.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Music" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/music.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Party" in game.genre %}                    
+                         <img src="{{ url_for('static', filename='images/genre_tags/party.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Platformer" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/platformer.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Productivity" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/productivity.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Puzzle" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/puzzle.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Racing" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/racinggg.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "RPG" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/rpg.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Sandbox" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/sandbox.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Shooter" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/shooter.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Sports" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/sports.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Stealth" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/stealth.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Strategy" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/strategy_.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Unofficial" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/unofficial.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Utility" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/utility.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Vehicle" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/vehicle_sim.png') }}" alt="Action">
+                    {% endif %}
+                    {% if "Virtual Console" in game.genre %}
+                         <img src="{{ url_for('static', filename='images/genre_tags/virt_con.png') }}" alt="Action">
+                    {% endif %}
+
+
+                </td>
+
             </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {% endfor %}
         </table>
     {% else %}
