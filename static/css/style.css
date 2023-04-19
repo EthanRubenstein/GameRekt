@@ -45,20 +45,75 @@ body {
     color: #c59b08;
 }
 
+.navigation {
+    display: flex;
+    flex-direction:row-reverse;
+    padding-right: 20px;
+    gap: 10px;
+}
+
+input{
+    border-radius: 5px;
+}
+
+.addFriend {
+    padding:5px 15px; 
+    background:#1f004c;
+    font-family: 'DotGothic16', 'Courier New', Courier, monospace;
+    font-size: small;
+    color: white; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+.login {
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+}
+
+.register {
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+    align-items: center;
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+
 table, th, td {
     border: 3px solid black;
     border-collapse: collapse;
     background-color: white;
     color: black;
-    }
-    th, td {
+}
+
+th, td {
     padding-top: 10px;
     padding-bottom: 20px;
     padding-left: 30px;
     padding-right: 40px;
-    }
+}
 
-    th {
-        font-family: 'Press Start 2P', cursive;
-        color: darkred;
-    }
+th {
+    font-family: 'Press Start 2P', cursive;
+    color: darkred;
+}

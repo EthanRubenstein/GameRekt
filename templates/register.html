@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}{{header}}{% endblock %}
 {% block body %}
+<div class="register">
+  <br>
   <h2>{{header}}</h2>
   {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
   <form action="" method="post">
@@ -14,6 +16,11 @@
       <dt>Password <small>(repeat)</small>:
       <dd><input type="password" name="password2" size="30">
     </dl>
-    <div class="actions"><input type="submit" value={{header}}></div>
+    <div class="actions">
+      <a href="{{ url_for('home') }}">
+        <input type="image" src="{{ url_for('static', filename='images/sign_up.png') }}" style="display: block; margin: auto; padding-bottom: 8px;" alt="Search">
+      </a> 
+    </div>
   </form>
+</div>
 {% endblock %}

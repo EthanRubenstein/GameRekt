@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}{{header}}{% endblock %}
 {% block body %}
-
+<div class="game">
     <h2>{{header}}</h2>
     <img src="{{file_address}}" alt={{internal_name}} width="200px">
     <br>
+    <br>
     {% if reviews|length > 0 %}
+    <div>
         <table>
             <tr>
             <th>User</th>
@@ -22,36 +24,41 @@
             </tr>
             {% endfor %}
         </table>
-    {% else %}
-      <em>There are no reviews for this game yet.</em>
-    {% endif %}
-
-    <div class="form-popup" id="postForm">
-        
-        <form action="" method = "post" class="form-container">
-            <h4>Write Your Review</h4>
-            
-            <!-- Text box for writing reviews -->
-            <textarea id="review" name="review" style="width: 40vw; height: 300px; text-align: left;" placeholder="Enter Your Review" required></textarea>
-            
-            <!-- A star rating system -->
-            <div class="rate">
-                <input type="radio" id="star5" name="rate" value="5" />
-                <label for="star5" title="text">5 stars</label>
-                <input type="radio" id="star4" name="rate" value="4" />
-                <label for="star4" title="text">4 stars</label>
-                <input type="radio" id="star3" name="rate" value="3" />
-                <label for="star3" title="text">3 stars</label>
-                <input type="radio" id="star2" name="rate" value="2" />
-                <label for="star2" title="text">2 stars</label>
-                <input type="radio" id="star1" name="rate" value="1" />
-                <label for="star1" title="text">1 star</label>
-            </div>
-
-            <!-- Submit the post -->
-            <div class="actions"><input type="submit" value=" Post Review "></div>
-        </form>
     </div>
+    {% else %}
+    <div>
+      <em>There are no reviews for this game yet.</em>
+    </div>
+    {% endif %}
+</div>
+    <br>
+    <form class="review" action="" method = "post">
+        <h4>Write Your Review</h4>
+        
+        <div>
+            <!-- Text box for writing reviews -->
+            <textarea id="review" name="review" style="width: 40vw; height: 300px; text-align: left; border-radius: 5px;" placeholder="Enter Your Review" required></textarea>
+        </div>
+
+        <!-- A star rating system -->
+        <div class="rate">
+            <input type="radio" id="star5" name="rate" value="5" />
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+        </div>
+        <br>
+        <!-- Submit the post -->
+        <div>
+            <input type="submit" value=" Post Review ">
+        </div>
+    </form>
 
 
 {% endblock %}

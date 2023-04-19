@@ -2,13 +2,13 @@
 {% block title %}GamRekt Profile: {{user}}{% endblock %}
 {% block body %}
   {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
-  <h2>{{user}}</h2>
-  <h3>Friends</h3>
+
   {% if g.user.username == user%}
   <form action="" method="post">
-    <input type="text" name="friend" size="30" value="{{ request.form.friend }}">
-    <input type="submit" value="Add friend">
+    <input type="text" name="friend" size="30" value="{{ request.form.friend }}" style="height: 25px;">
+    <input type="submit" class="addFriend" value="Add friend">
   </form>
+  <br>
   {% endif %}
   <table>
     <tr>
@@ -42,6 +42,7 @@
     <th>Rating</th>
     <th>Review</th>
     </tr>
+    <br>
   {% for review in userReviews %}
   <tr>
       <td><strong>{{ review.gameName }}</a></strong></th>
