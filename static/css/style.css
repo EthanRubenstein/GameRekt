@@ -75,7 +75,9 @@ body {
 input{
     border-radius: 5px;
 }
-
+#post-rev{
+    font-family: 'DotGothic16', 'Courier New', Courier, monospace;
+}
 .addFriend {
     padding:5px 15px; 
     background:#1f004c;
@@ -136,15 +138,14 @@ th, td {
 
 th {
     font-family: 'Press Start 2P', cursive;
-    color: rgb(255, 0, 0);
+    color: rgb(256, 0, 0);
 }
 table{
     background: rgba(255, 255, 255, 0.17);
-    border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 0px solid rgba(255, 255, 255, 0.3);
 }
 table a{
     color:white;
@@ -152,6 +153,24 @@ table a{
 #profile{
     color:white
 }
-#profile-table{
-    width:100%;
+
+#profile-wrapper table, h1{
+    display:inline-block;
+    vertical-align:middle;
+}
+#profile-wrapper h1{
+    margin-left:30%;
+    color: red;
+}
+#link{
+    font-family: 'Press Start 2P', cursive;
+    color:red;
+}
+#title{
+    font-family: 'Press Start 2P', cursive;
+    margin-top:2%;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    width: 100%;
 }

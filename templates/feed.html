@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}GamRekt Feed: {{user}}{% endblock %}
+{% block body %}
+  {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
+<h1 id="title">Latest Reviews by Friends</h1>
+{% if reviews|length > 0 %}
+  <table class="table" style = "margin-top:3%">
+    <tr>
+        <th>Friend</th>
+        <th>Game</th>
+        <th>Date</th>
+        <th>Review</th>
+        <th>Rating</th>
+    </tr>
+
+  {% for review in reviews %}
+  {% for r in review %}
+  <tr>
+    <td><a href = "{{ url_for('profile', user=r.user) }}">{{ r.user }}</a></td>
+    <td><a href = {{url_for('game', gameName=r.gameName)}}> {{ r.gameName }} </a></td>
+    <td>{{ r.date }}</td>
+    <td>{{ r.review }}</td>
+    <td>{{ r.rating }}</td>
+  </tr>
+  {% endfor %}
+  {% endfor %}
+</table>
+{% elif userReviews|length == 0%}
+  <h2 style="text-align:center; margin-top:1%">Sorry, your friends have not posted any reviews :&lpar;</h2>
+{% endif %}
+
+{% endblock %}
+

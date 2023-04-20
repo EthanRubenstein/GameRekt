@@ -395,3 +395,30 @@ def logout():
     flash('You were logged out')
     session.pop('user_id', None)
     return redirect(url_for('home'))
+
+@app.route('/feed', methods=['GET'])
+def feed():
+    user = g.user.username
+    error = None
+    if not db.getUser(user):
+        error = 'Please login to see your feed'
+    userReviews = db.getAllReviews(user)
+    friends = db.getAllFriends(user)
+
+    true_friends = [] # true_friends = friends that have added the user back
+    friends_list = [] # all users that the user has sent a friend request to
+
+    if friends is not None:
+        for friend in friends:
+            friends_list.append(friend[0])
+
+        for friend in friends_list:
+            if db.getFriend(friend, user) is not None:
+                true_friends.append(friend)
+    reviews = []
+    for friend in true_friends:
+        review = db.getAllReviews(friend)
+        if review is not None:
+            reviews.append(review)
+
+    return render_template('feed.html', friends = true_friends, reviews = reviews)

@@ -10,6 +10,7 @@
   </form>
   <br>
   {% endif %}
+  <div id="profile-wrapper">
   <table>
     <tr>
     <th>Friends</th>
@@ -34,8 +35,12 @@
   {% endfor %}
   {% endif %}
   </table>
+  {% if g.user.username == user%}
+  <h1><a href="{{ url_for('feed') }}" id="link"><strong>Feed</strong></a></h1>
+  {% endif %}
+</div>
   {% if userReviews|length > 0 %}
-  <table id="profile-table">
+  <table class="table">
     <tr>
     <th>Game</th>
     <th>Date</th>
