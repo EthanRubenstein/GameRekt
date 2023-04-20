@@ -5,100 +5,211 @@
     <h2>Search Results: {{header}}</h2>
 
     {% if games|length > 0 %}
-        <table class="table">
+        <table>
             <tr>
             <th></th>
             <th>Game</th>
-            <th>Release Date</th>
+            <th>Description</th>
             <th>Genre</th>
             </tr>
             {% for game in games %}
             <tr>
-                <td><a href="/game/{{ game.title }}"><img src="{{ game.img}}" onerror="this.onerror=null;this.src='{{ game.alt_img }}';" alt={{game.title}} width="200px"></a></td>
-                <td><strong><a href="/game/{{ game.title }}">{{ game.title }}</a></strong></th>
-                <td>{{ game.release_date }}</td>
+                <td> <img src="{{ game.img}}" onerror="this.onerror=null;this.src='{{ game.alt_img }}';" alt={{game.title}} width="200px"></td>
+                <td><strong><a href="/game/{{ game.title }}">{{ game.title }}</a></a></strong></th>
+                <td>{{ game.desc }}</td>
+
                 
                 <td>
                     {% if "Action" in game.genre %}
-                        <img src="{{ url_for('static', filename='images/genre_tags/Action.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/title/Action"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/Action.png') }}" alt="Action">
+                    </a>
                     {% endif %}
+
+
                     {% if "Adventure" in game.genre %}
-                        <img src="{{ url_for('static', filename='images/genre_tags/Adventure.png') }}" alt="Action">
+                         <a href="http://127.0.0.1:5000/search/genre/Adventure"> 
+                              <img src="{{ url_for('static', filename='images/genre_tags/Adventure.png') }}" alt="Adventure">
+                         </a>
                     {% endif %}
-                    {% if "Board Game" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/boardgame.png') }}" alt="Action">
+                    
+
+                    {% if "Board Game" in game.genre %}     
+                    <a href="http://127.0.0.1:5000/search/genre/Board%20Game"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/boardgame.png') }}" alt="Board Game">
+                    </a>
                     {% endif %}
-                    {% if "Construction and Management Sim" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/const_man.png') }}" alt="Action">
+
+
+                    {% if "Construction and Management Sim" in game.genre %}  
+                    <a href="http://127.0.0.1:5000/search/genre/Construction%20and%20Management%20Sim"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/const_man.png') }}" alt="Construction and Management Sim">
+                    </a>
                     {% endif %}
+
+
                     {% if "Education" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/educate.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Education"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/educate.png') }}" alt="Education">
+                    </a>
                     {% endif %}
+
+               
                     {% if "Family" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/family.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Family"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/family.png') }}" alt="Family">
+                    </a>
                     {% endif %}
+
+
+
                     {% if "Fighting" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/fighting.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Fighting"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/fighting.png') }}" alt="Fighting">
+                    </a>
                     {% endif %}
+
+
+
                     {% if "GBA Video / PSP Video" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/gba_psp.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/GBA%20Video%20/%20PSP%20Video"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/gba_psp.png') }}" alt="GBA Video / PSP Video">
+                    </a>
                     {% endif %}
+
+
+
                     {% if "Horror" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/horror.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Horror"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/horror.png') }}" alt="Horror">
+                    </a>
                     {% endif %}
+
+
+
                     {% if "Life Sim" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/life_sim.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Life%20Sim"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/life_sim.png') }}" alt="Life Sim">
+                    </a>
                     {% endif %}
+
+
                     {% if "MMO" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/mmo.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/MMO">
+                         <img src="{{ url_for('static', filename='images/genre_tags/mmo.png') }}" alt="MMO">
+                    </a>
                     {% endif %}
+
+
                     {% if "Music" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/music.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Music">
+                         <img src="{{ url_for('static', filename='images/genre_tags/music.png') }}" alt="Music">
+                    </a>
                     {% endif %}
-                    {% if "Party" in game.genre %}                    
-                         <img src="{{ url_for('static', filename='images/genre_tags/party.png') }}" alt="Action">
+
+
+                    {% if "Party" in game.genre %}   
+                    <a href="http://127.0.0.1:5000/search/genre/Party">                 
+                         <img src="{{ url_for('static', filename='images/genre_tags/party.png') }}" alt="Party">
+                    </a>
                     {% endif %}
+
                     {% if "Platformer" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/platformer.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Platformer"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/platformer.png') }}" alt="Party">
+                    </a>
                     {% endif %}
+
+
                     {% if "Productivity" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/productivity.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Productivity"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/productivity.png') }}" alt="Productivity">
+                    </a>
                     {% endif %}
+
+
                     {% if "Puzzle" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/puzzle.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Puzzle"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/puzzle.png') }}" alt="Puzzle">
+                    </a>
                     {% endif %}
+
+
                     {% if "Racing" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/racinggg.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Racing"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/racinggg.png') }}" alt="Racing">
+                    </a>
                     {% endif %}
+
+
+
                     {% if "RPG" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/rpg.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/RPG"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/rpg.png') }}" alt="RPG">
+                    </a>
                     {% endif %}
+
+
                     {% if "Sandbox" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/sandbox.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Sandbox"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/sandbox.png') }}" alt="Sandbox">
+                    </a>
                     {% endif %}
+
+
                     {% if "Shooter" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/shooter.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Shooter"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/shooter.png') }}" alt="Shooter">
+                    </a>
                     {% endif %}
+
+
                     {% if "Sports" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/sports.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Sports"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/sports.png') }}" alt="Sports">
+                    </a>
                     {% endif %}
+
+
                     {% if "Stealth" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/stealth.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Stealth"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/stealth.png') }}" alt="Stealth">
+                    </a>
                     {% endif %}
+               
+
                     {% if "Strategy" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/strategy_.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Strategy"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/strategy_.png') }}" alt="Strategy">
+                    </a>
                     {% endif %}
+
+
                     {% if "Unofficial" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/unofficial.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Unofficial"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/unofficial.png') }}" alt="Unofficial">
+                    </a>
                     {% endif %}
+
+
                     {% if "Utility" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/utility.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Utility"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/utility.png') }}" alt="Utility">
+                    </a>
                     {% endif %}
+
+
                     {% if "Vehicle" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/vehicle_sim.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Vehicle"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/vehicle_sim.png') }}" alt="Vehicle">
+                    </a>
                     {% endif %}
+
+
                     {% if "Virtual Console" in game.genre %}
-                         <img src="{{ url_for('static', filename='images/genre_tags/virt_con.png') }}" alt="Action">
+                    <a href="http://127.0.0.1:5000/search/genre/Virtual%20Console"> 
+                         <img src="{{ url_for('static', filename='images/genre_tags/virt_con.png') }}" alt="Virtual Console">
+                    </a>
                     {% endif %}
 
 
@@ -122,7 +233,7 @@
             {% endfor %}
         </table>
     {% else %}
-      <div class="flashes"><em>There are no results for this query.</em></div>
+      <em>There are no results for this query.</em>
     {% endif %}
 
 

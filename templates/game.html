@@ -2,10 +2,14 @@
 {% block title %}{{header}}{% endblock %}
 {% block body %}
 <div class="game">
-    <h2>{{header}}</h2>
+    <div style = "padding-top: 20px; padding-bottom: 10px"><h2>{{header}}</h2></div>
+
     <img src="{{file_address}}" alt={{internal_name}} width="200px">
     <br>
-    <h2>Description</h2>
+    <h3 style = "font-size: 38px; padding-top: 12px">{{ average_rating }}</h3>
+    <br>
+    <h2>Description</h2> 
+
     <h4 id="desc">{{ desc }}</h4>
     <br>
     {% if reviews|length > 0 %}
