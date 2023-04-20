@@ -35,7 +35,7 @@
   {% endif %}
   </table>
   {% if userReviews|length > 0 %}
-  <table>
+  <table id="profile-table">
     <tr>
     <th>Game</th>
     <th>Date</th>
@@ -45,9 +45,9 @@
     <br>
   {% for review in userReviews %}
   <tr>
-      <td><strong>{{ review.gameName }}</a></strong></th>
+      <td><a href = {{url_for('game', gameName=review.gameName)}}><strong>{{ review.gameName }}</a></strong></th>
       <td>{{ review.date }}</td>
-      <td>{{ review.rating }}</td>
+      <td>{{ review.rating }}</td>  
       <td>{{ review.review }}</td>
   </tr>
   {% endfor %}
