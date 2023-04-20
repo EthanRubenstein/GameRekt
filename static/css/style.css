@@ -15,7 +15,9 @@ body {
     font-family: 'DotGothic16', 'Courier New', Courier, monospace;
     text-align: center;
 }
-
+.page{
+    min-height:100vh;
+}
 .flashes{
     padding-top:25px;
     text-align:center;
