@@ -15,7 +15,7 @@
             {% for game in games %}
             <tr>
                 <td> <img src="{{ game.img}}" onerror="this.onerror=null;this.src='{{ game.alt_img }}';" alt={{game.title}} width="200px"></td>
-                <td><strong><a href="/game/{{ game.title }}">{{ game.title }}</a></a></strong></th>
+                <td><strong><a href="/game/{{ game.title_cleaned }}">{{ game.title }}</a></a></strong></th>
                 <td>{{ game.desc }}</td>
 
                 

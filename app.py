@@ -36,12 +36,13 @@ class Review():
         self.review = review
 
 class Game():
-    def __init__(self, title, desc, genreid, gameid, release_date):
+    def __init__(self, title, desc, genreid, gameid, release_date, title_cleaned):
         self.title = title
         self.desc = desc
         self.release_date = release_date
         self.genre = "None"
         self.id = gameid
+        self.title_cleaned = title # clean apostraphes
         self.img = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(gameid)
         self.alt_img = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(gameid)
 
@@ -54,7 +55,7 @@ class Game():
 
     def fromDB(data_row):
         genreids = [int(val) for val in data_row[12].strip('][').split(', ')] if data_row[12] != 'None' else []
-        return Game(data_row[1], data_row[6], genreids, data_row[0], data_row[2])
+        return Game(data_row[1], data_row[6], genreids, data_row[0], data_row[2], "")
         
 class Database():
     genre_mappings = { # maps a readable genre to the genre id number, currently genre names are g_ as i dont know what the mapping is
@@ -322,13 +323,14 @@ def register():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     query = request.args.get('search', None)
+    query = query.replace("'", "''")
     if query == "" or query == None:
         flash("Please enter a valid title")
         return redirect('/')
-
+        
     if query.startswith('genre:'):
         return redirect(F'/search/genre/{query.replace("genre:", "", 1)}')
-        
+    
     return redirect(F'/search/title/{query}')
 
 @app.route('/search/genre/<path:genre>', methods=['GET'])
@@ -347,6 +349,9 @@ def search_genre(genre):
 def search_title(title):
     games = db.getGame(title)
     games = removeDuplicates(games)
+    title = title.replace("''", "'")
+    for game in games:
+        game.title_cleaned = game.title.replace("'","''")
     return render_template('search_results.html', header = title, games = games)
 
 def removeDuplicates(games):
@@ -362,9 +367,11 @@ def removeDuplicates(games):
 
 @app.route('/game/<path:gameName>', methods=['GET', 'POST'])
 def game(gameName):
+    gameName = gameName.replace("''", "'")
+    gameName = gameName.replace("'", "''")
     if db.getGame(gameName, exact = True) == []:
         return render_template('game_not_found.html', header = gameName)
-
+    
     if request.method == 'POST':
         if not g.user:
             flash("You must be logged in to post a review")
@@ -403,8 +410,8 @@ def game(gameName):
         resp.raise_for_status()
     except requests.exceptions.HTTPError as err:
         file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(game_image)
-
-    return render_template('game.html', desc = game_desc, average_rating = star_rate, header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
+    gameName = gameName.replace("''", "'")
+    return render_template('game.html', desc = game_desc, average_rating = star_rate, header = gameName, reviews = reviews, internal_name = gameName, file_address = file_address)
 
 @app.route('/logout')
 def logout():
