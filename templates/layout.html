@@ -12,41 +12,43 @@
 
 <body style="background-image: url({{ url_for('static', filename='images/gamerekt_scenic.png') }}); background-size: cover;">
 
- <a href="/"> <img src="{{ url_for('static', filename='images/doublesize_gamerekt.gif') }}" style = "display: block; margin: auto; padding-top: 140px;" alt="GameRekt"></a>
+  <img src="{{ url_for('static', filename='images/doublesize_gamerekt.gif') }}" style = "display: block; margin: auto; padding-top: 140px;" alt="GameRekt">
 
   <div class="navigation">
-
+    <div class="wrapper">
     <a href="{{ url_for('home') }}">
-      <input type="image" src="{{ url_for('static', filename='images/home.png') }}" style="display: block; margin: auto; padding-bottom: 8px;" alt="Search">
+      <input type="image" src="{{ url_for('static', filename='images/home.png') }}"  alt="Search">
     </a> 
 
 
     {% if g.user %}
+    
       <a href="{{ url_for('logout') }}">
-        <img src="{{ url_for('static', filename='images/Sign_out.png') }}" alt="Sign Out" style = "display: block; margin: auto;">
+        <img src="{{ url_for('static', filename='images/Sign_out.png') }}" alt="Sign Out">
       </a>
 
         
-      <a href = "{{ url_for('profile', user=g.user.username) }}" id="profile"> <strong>Profile</strong> [{{ g.user.username }}]</a>
+      <a href = "{{ url_for('profile', user=g.user.username) }}">[{{ g.user.username }}] Profile</a>
       <br />
+    
     {% else %}
     
-    <div style = "display: flex; justify-content: center; align-items: center;">
+  
       <a href="{{ url_for('register') }}">
-      <img src="{{ url_for('static', filename='images/sign_up.png') }}" alt="Sign Up" style = "display: inline-block; margin: auto;">
+      <img src="{{ url_for('static', filename='images/sign_up.png') }}" alt="Sign Up">
       </a>
       <a href="{{ url_for('login') }}">
-      <img src="{{ url_for('static', filename='images/sign_in.png') }}" alt="Sign In" style = "display: inline-block; margin: auto;">
+      <img src="{{ url_for('static', filename='images/sign_in.png') }}" alt="Sign In">
       </a>
-    </div>
+    
 
     {% endif %}
   </div>
-
+</div>
   <div class="search">
     <div style="display: flex; justify-content: center; align-items: center; padding-top: 12px;">
       <form action="/search">
-        <input type="text" class="text-box" placeholder="Enter any game!" name="search" style = "padding-top: 6px; padding-bottom: 6px; font-size: 18px; border-radius: 5px;">
+        <input type="text" placeholder="Enter any game!" name="search" style = "padding-top: 6px; padding-bottom: 6px; font-size: 18px; border-radius: 5px;">
         <input type="image" src="{{ url_for('static', filename='images/search_button.gif') }}" style="display: inline-block; margin: auto;" alt="Search">
       </form>
     </div>
@@ -71,7 +73,7 @@
   </div>
 
   <br>
-  <div class="footer" style= "padding-top: 180px; text-align: center; margin-right: 10px;">
+  <div class="footer" style= "padding-top: 180px; text-align: right; margin-right: 10px;">
     GameRekt &mdash; A Flask Application
   </div>
 </div>
