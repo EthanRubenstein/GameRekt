@@ -370,7 +370,7 @@ def game(gameName):
             flash("You must be logged in to post a review")
         if g.user and db.getUserReview(g.user.username, gameName):
             flash("You cannot leave multiple reviews for one game")
-        else:
+        elif g.user:
             newReview = Review(None, gameName, g.user, None, request.form['rate'], request.form['review'])
             db.postReview(newReview)
 
