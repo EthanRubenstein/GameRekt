@@ -7,7 +7,10 @@ body {
     font-family: 'DotGothic16', 'Courier New', Courier, monospace;
     color: aliceblue;
 }
-
+.register{
+    margin:auto;
+    text-align:center;
+}
 .text-box{
     font-family: 'DotGothic16', 'Courier New', Courier, monospace;
     text-align: center;

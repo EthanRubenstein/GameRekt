@@ -12,8 +12,7 @@
 
 <body style="background-image: url({{ url_for('static', filename='images/gamerekt_scenic.png') }}); background-size: cover;">
 
-  <img src="{{ url_for('static', filename='images/doublesize_gamerekt.gif') }}" style = "display: block; margin: auto; padding-top: 140px;" alt="GameRekt">
-
+  <a href="/"> <img src="{{ url_for('static', filename='images/doublesize_gamerekt.gif') }}" style = "display: block; margin: auto; padding-top: 140px;" alt="GameRekt"></a>
   <div class="navigation">
     <div class="wrapper">
     <a href="{{ url_for('home') }}">
@@ -50,7 +49,7 @@
   <div class="search">
     <div style="display: flex; justify-content: center; align-items: center; padding-top: 12px;">
       <form action="/search">
-        <input type="text" placeholder="Enter any game!" name="search" style = "padding-top: 6px; padding-bottom: 6px; font-size: 18px; border-radius: 5px;">
+        <input type="text" class="text-box" placeholder="Enter any game!" name="search" style = "padding-top: 6px; padding-bottom: 6px; font-size: 18px; border-radius: 5px;">
         <input type="image" src="{{ url_for('static', filename='images/search_button.gif') }}" style="display: inline-block; margin: auto;" alt="Search">
       </form>
     </div>
