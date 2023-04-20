@@ -378,6 +378,23 @@ def game(gameName):
     game_desc = db.getGame(gameName, exact = True)[0].desc
 
     reviews = db.getReviews(gameName)
+
+    if not reviews:
+        star_rate = "Not rated, be the first!"
+    else:
+        star_rate = ""
+        total_rev_score = 0
+        rev_count = 0
+        for review in reviews: 
+            total_rev_score += review.rating
+            rev_count += 1
+        avg_score = total_rev_score/rev_count
+        avg_score = round(avg_score, ndigits=None)
+        for i in range(avg_score):
+            star_rate = star_rate + " ★ "
+        for j in range(5-avg_score):
+            star_rate = star_rate + " ☆ "
+
     internal_name = re.sub(r'\W+', '', gameName.replace(" ", "_"))
     file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-1.jpg".format(game_image)
 
@@ -387,7 +404,7 @@ def game(gameName):
     except requests.exceptions.HTTPError as err:
         file_address = "https://cdn.thegamesdb.net/images/original/boxart/front/{}-2.jpg".format(game_image)
 
-    return render_template('game.html', desc = game_desc, header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
+    return render_template('game.html', desc = game_desc, average_rating = star_rate, header = gameName, reviews = reviews, internal_name = internal_name, file_address = file_address)
 
 @app.route('/logout')
 def logout():

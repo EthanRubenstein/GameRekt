@@ -5,8 +5,8 @@
 
   {% if g.user.username == user%}
   <form action="" method="post">
-    <input type="text" class="text-box" name="friend" size="30" value="{{ request.form.friend }}" style="height: 25px;">
-    <input type="submit" class="addFriend" value="Add friend">
+    <input type="text" placeholder= "add a friend..." class="text-box" name="friend" size="30" value="{{ request.form.friend }}" style="height: 25px; padding-top: 6 px;">
+    <input type="image" src="{{ url_for('static', filename='images/add_fren.png') }}" value="Add friend">
   </form>
   <br>
   {% endif %}
@@ -36,7 +36,7 @@
   {% endif %}
   </table>
   {% if g.user.username == user%}
-  <h1><a href="{{ url_for('feed') }}" id="link"><strong>Feed</strong></a></h1>
+  <h1><a href="{{ url_for('feed') }}" id="link"> <img src="{{ url_for('static', filename='images/feed.png') }}" alt="Feed">  </a></h1>
   {% endif %}
 </div>
   {% if userReviews|length > 0 %}
