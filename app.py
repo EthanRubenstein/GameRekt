@@ -322,6 +322,7 @@ def register():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     query = request.args.get('search', None)
+    query = re.escape(query)
     if query == "" or query == None:
         flash("Please enter a valid title")
         return redirect('/')
