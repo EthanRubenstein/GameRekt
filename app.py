@@ -398,6 +398,10 @@ def logout():
 
 @app.route('/feed', methods=['GET'])
 def feed():
+    if not g.user:
+        flash("You must log in to view this page")
+        return redirect('/')
+   
     user = g.user.username
     error = None
     if not db.getUser(user):

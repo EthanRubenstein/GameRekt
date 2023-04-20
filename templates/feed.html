@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}GamRekt Feed: {{user}}{% endblock %}
 {% block body %}
+
   {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
 <h1 id="title">Latest Reviews by Friends</h1>
 {% if reviews|length > 0 %}
