@@ -14,3 +14,11 @@ set FLASK_ENV=development
 py -m flask run
 ```
 init database with: py -m flask initdb (currently does nothing)
+
+To-do list:
+-Profile pictures
+-Pagination of search results
+-More advanced query system to account for mispellings, stem shortening, etc
+-Messaging system
+-Notification system
+-Settings page
